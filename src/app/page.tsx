@@ -18,9 +18,9 @@ import {
   X,
   Check,
   Clock,
-  Star,
   Lock,
-  AlertCircle
+  AlertCircle,
+  TrendingUp
 } from 'lucide-react';
 
 // Animation variants
@@ -50,39 +50,12 @@ const scaleIn: Variants = {
   }
 };
 
-// Social proof data
-const TESTIMONIALS = [
-  {
-    quote: "I was paying $99/month for Beehiiv's analytics. This does more for half the price.",
-    author: "Sarah K.",
-    role: "Newsletter writer, 12K subscribers"
-  },
-  {
-    quote: "Finally, cohort analysis that doesn't require a PhD to understand.",
-    author: "Marcus T.",
-    role: "Creator, The Daily Brief"
-  },
-  {
-    quote: "My sponsor close rate went up 40% after using their PDF reports.",
-    author: "Jennifer L.",
-    role: "Indie hacker, 8K subscribers"
-  }
-];
-
-// Stats for social proof
-const STATS = [
-  { value: "10K+", label: "Newsletters Analyzed" },
-  { value: "$2M+", label: "Sponsor Revenue Tracked" },
-  { value: "98%", label: "User Satisfaction" },
-  { value: "3", label: "Platforms Supported" }
-];
-
 export default function LandingPage() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [spotLeft, setSpotLeft] = useState(47);
+  const [spotLeft, setSpotLeft] = useState(50);
   const [activeTab, setActiveTab] = useState(0);
   const [showExitModal, setShowExitModal] = useState(false);
 
@@ -99,7 +72,7 @@ export default function LandingPage() {
   useEffect(() => {
     const interval = setInterval(() => {
       setSpotLeft(prev => Math.max(0, prev - Math.floor(Math.random() * 2)));
-    }, 30000); // Decrease every 30 seconds
+    }, 45000); // Decrease every 45 seconds (slower since no real data)
     return () => clearInterval(interval);
   }, []);
 
@@ -120,7 +93,6 @@ export default function LandingPage() {
       console.log('Waitlist signup:', email);
       setSubmitted(true);
       setEmail('');
-      // Here you would typically send to your backend
     }
   };
 
@@ -135,13 +107,13 @@ export default function LandingPage() {
           <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
             <CheckCircle className="w-8 h-8 text-emerald-600" />
           </div>
-          <h3 className="text-2xl font-bold text-slate-900 mb-2">You&apos;re in! 🎉</h3>
+          <h3 className="text-2xl font-bold text-slate-900 mb-2">You&apos;re on the list! 🎉</h3>
           <p className="text-slate-600 mb-4">
-            Spot #{Math.floor(Math.random() * 100) + 1} secured. We&apos;ll email you within 48 hours with beta access.
+            Thanks for your interest. We&apos;ll email you as soon as the beta is ready.
           </p>
           <div className="flex items-center gap-2 text-sm text-slate-500">
             <Clock className="w-4 h-4" />
-            <span>Expected launch: March 2026</span>
+            <span>Expected: March 2026</span>
           </div>
         </motion.div>
       ) : (
@@ -174,7 +146,7 @@ export default function LandingPage() {
           </div>
           <p className="text-center text-sm text-slate-500 mt-3 flex items-center justify-center gap-2">
             <Lock className="w-3 h-3" />
-            No spam. Unsubscribe anytime. We respect your inbox.
+            No spam. Unsubscribe anytime.
           </p>
         </form>
       )}
@@ -185,11 +157,11 @@ export default function LandingPage() {
     <div className="min-h-screen w-full bg-slate-50 font-sans text-slate-900 overflow-x-hidden">
       
       {/* Urgency Banner */}
-      <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-amber-500 to-orange-500 text-white py-2 px-4 text-center text-sm font-medium">
+      <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 text-center text-sm font-medium">
         <span className="inline-flex items-center gap-2">
-          <Zap className="w-4 h-4" />
-          Only {spotLeft} spots left in the beta — Join the waitlist now
-          <Zap className="w-4 h-4" />
+          <Sparkles className="w-4 h-4" />
+          Beta launching March 2026 — {spotLeft} early access spots remaining
+          <Sparkles className="w-4 h-4" />
         </span>
       </div>
 
@@ -230,7 +202,7 @@ export default function LandingPage() {
           {/* Badge */}
           <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-2 mb-8">
             <Sparkles className="w-4 h-4 text-blue-500" />
-            <span className="text-sm font-semibold text-blue-700">Beta launching March 2026</span>
+            <span className="text-sm font-semibold text-blue-700">Now in private beta</span>
           </motion.div>
 
           {/* Headline */}
@@ -243,8 +215,8 @@ export default function LandingPage() {
           </motion.h1>
 
           {/* Subheadline */}
-          <motion.p variants={fadeInUp} className="max-w-2xl mx-auto text-xl md:text-2xl text-slate-600 mb-8 leading-relaxed">
-            The analytics platform built <strong>strictly for newsletter creators</strong>. 
+        <motion.p variants={fadeInUp} className="max-w-2xl mx-auto text-xl md:text-2xl text-slate-600 mb-8 leading-relaxed">
+          The analytics platform built <strong>strictly for newsletter creators</strong>. 
             Cross-platform insights, sponsor-ready reports, and engagement scoring that GA4 can&apos;t touch.
           </motion.p>
 
@@ -293,26 +265,6 @@ export default function LandingPage() {
         >
           <ChevronDown className="w-8 h-8" />
         </motion.div>
-      </section>
-
-      {/* Social Proof / Stats Section */}
-      <section className="relative z-10 py-20 px-4 bg-white border-y border-slate-200">
-        <div className="max-w-6xl mx-auto">
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
-          >
-            {STATS.map((stat, i) => (
-              <motion.div key={i} variants={fadeInUp} className="text-center">
-                <div className="text-4xl md:text-5xl font-bold text-slate-900 mb-2">{stat.value}</div>
-                <div className="text-slate-500 font-medium">{stat.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
       </section>
 
       {/* Problem Section */}
@@ -495,7 +447,7 @@ export default function LandingPage() {
                 <h3 className="text-2xl font-bold mb-3 text-slate-900">Sponsor-Ready Reports</h3>
                 <p className="text-slate-600 leading-relaxed">
                   Generate beautiful, professional PDF reports with one click. Show sponsors exactly what their ROI will be. 
-                  Close deals 40% faster.
+                  Close deals faster with data that impresses.
                 </p>
               </motion.div>
 
@@ -566,7 +518,7 @@ export default function LandingPage() {
             <motion.div variants={fadeInUp} className="text-center mb-16">
               <span className="inline-block text-blue-600 font-semibold text-sm uppercase tracking-wider mb-4">Comparison</span>
               <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-slate-900">
-                Why creators are switching.
+                Why we&apos;re different.
               </h2>
             </motion.div>
 
@@ -654,7 +606,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Beta Benefits Section - REPLACING TESTIMONIALS */}
       <section className="relative z-10 py-24 px-4 bg-slate-50">
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -664,25 +616,39 @@ export default function LandingPage() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeInUp} className="text-center mb-16">
-              <span className="inline-block text-blue-600 font-semibold text-sm uppercase tracking-wider mb-4">Testimonials</span>
+              <span className="inline-block text-blue-600 font-semibold text-sm uppercase tracking-wider mb-4">Beta Access</span>
               <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">
-                Loved by creators.
+                Be among the first.
               </h2>
+              <p className="text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
+                Join our private beta and help shape the future of newsletter analytics.
+              </p>
             </motion.div>
 
             <motion.div variants={staggerContainer} className="grid md:grid-cols-3 gap-6">
-              {TESTIMONIALS.map((t, i) => (
+              {[
+                {
+                  icon: Zap,
+                  title: "Free During Beta",
+                  desc: "Get full access to all Pro features at no cost while we refine the product."
+                },
+                {
+                  icon: TrendingUp,
+                  title: "Shape the Roadmap",
+                  desc: "Your feedback directly influences what we build next. Request features that matter to you."
+                },
+                {
+                  icon: Lock,
+                  title: "Founding Member Pricing",
+                  desc: "Lock in 50% off forever when you join the beta. Grandfathered pricing for life."
+                }
+              ].map((item, i) => (
                 <motion.div key={i} variants={fadeInUp} className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(5)].map((_, j) => (
-                      <Star key={j} className="w-4 h-4 text-amber-400 fill-amber-400" />
-                    ))}
+                  <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4">
+                    <item.icon className="w-6 h-6 text-blue-500" />
                   </div>
-                  <p className="text-slate-700 mb-6 leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
-                  <div>
-                    <div className="font-semibold text-slate-900">{t.author}</div>
-                    <div className="text-sm text-slate-500">{t.role}</div>
-                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">{item.title}</h3>
+                  <p className="text-slate-600">{item.desc}</p>
                 </motion.div>
               ))}
             </motion.div>
@@ -690,7 +656,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing Teaser */}
+      {/* Pricing Section */}
       <section className="relative z-10 py-24 px-4 bg-white border-y border-slate-200">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
@@ -735,6 +701,12 @@ export default function LandingPage() {
                 </ul>
               </div>
             </motion.div>
+
+            <motion.div variants={fadeInUp} className="mt-8 p-4 bg-blue-50 rounded-xl border border-blue-200 inline-block">
+              <p className="text-blue-800 font-medium">
+                🎉 Beta members get 50% off forever — just $14.50/mo
+              </p>
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -753,9 +725,9 @@ export default function LandingPage() {
                 Ready to understand your readers?
               </h2>
               <p className="text-xl text-slate-600 mb-4">
-                Join {100 - spotLeft}+ creators on the waitlist.
+                Join the waitlist for early access.
               </p>
-              <p className="text-amber-600 font-semibold mb-10 flex items-center justify-center gap-2">
+              <p className="text-blue-600 font-semibold mb-10 flex items-center justify-center gap-2">
                 <Zap className="w-5 h-5" />
                 Only {spotLeft} beta spots remaining
               </p>
@@ -828,7 +800,7 @@ export default function LandingPage() {
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 mb-2">Wait! Don&apos;t miss out.</h3>
                 <p className="text-slate-600 mb-6">
-                  Only {spotLeft} beta spots left. Join the waitlist now and get early access + 50% off your first year.
+                  Only {spotLeft} beta spots left. Join the waitlist now and get 50% off your first year.
                 </p>
                 <form onSubmit={handleSubmit} className="space-y-3">
                   <input

@@ -8,8 +8,6 @@
   }
 }
 
-
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -64,4 +62,26 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom selection color */
+::selection {
+  background-color: rgb(59 130 246 / 0.3);
+  color: rgb(15 23 42);
+}
+
+/* Focus visible styles */
+:focus-visible {
+  outline: 2px solid rgb(59 130 246);
+  outline-offset: 2px;
+}
+
+/* Remove tap highlight on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
 }

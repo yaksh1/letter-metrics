@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, Variants, AnimatePresence } from 'framer-motion';
 import { 
-  ArrowRight, 
+  ArrowUp, 
   CheckCircle, 
   Mail, 
   Sparkles, 
@@ -15,7 +15,6 @@ import {
   Globe,
   Zap,
   Eye,
-  X,
   Check,
   Clock,
   Lock,
@@ -56,7 +55,6 @@ export default function LandingPage() {
   const [isHovered, setIsHovered] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [spotLeft, setSpotLeft] = useState(50);
-  const [activeTab, setActiveTab] = useState(0);
   const [showExitModal, setShowExitModal] = useState(false);
 
   // Handle nav background on scroll
@@ -72,7 +70,7 @@ export default function LandingPage() {
   useEffect(() => {
     const interval = setInterval(() => {
       setSpotLeft(prev => Math.max(0, prev - Math.floor(Math.random() * 2)));
-    }, 45000); // Decrease every 45 seconds (slower since no real data)
+    }, 45000);
     return () => clearInterval(interval);
   }, []);
 
@@ -97,67 +95,68 @@ export default function LandingPage() {
   };
 
   const WaitlistForm = ({ compact = false }: { compact?: boolean }) => (
-    <div className={`w-full max-w-2xl mx-auto ${compact ? 'max-w-xl' : ''}`}>
+    <div className={`w-full max-w-2xl transform transition-all duration-500 hover:scale-[1.02] mx-auto ${compact ? 'max-w-xl' : ''}`}>
       {submitted ? (
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 shadow-lg flex flex-col items-center justify-center text-center"
+          className="bg-white/80 backdrop-blur-xl border border-slate-200 rounded-3xl p-8 shadow-xl shadow-slate-200/50 flex flex-col items-center justify-center text-slate-900"
         >
-          <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
-            <CheckCircle className="w-8 h-8 text-emerald-600" />
-          </div>
-          <h3 className="text-2xl font-bold text-slate-900 mb-2">You&apos;re on the list! 🎉</h3>
-          <p className="text-slate-600 mb-4">
-            Thanks for your interest. We&apos;ll email you as soon as the beta is ready.
+          <CheckCircle className="w-12 h-12 text-emerald-500 mb-4" />
+          <h3 className="text-2xl font-bold tracking-tight mb-2">You&apos;re on the list.</h3>
+          <p className="text-slate-600 font-medium text-center">
+            We&apos;ll notify you the moment we open up the beta. Prepare to understand your audience like never before.
           </p>
-          <div className="flex items-center gap-2 text-sm text-slate-500">
-            <Clock className="w-4 h-4" />
-            <span>Expected: March 2026</span>
-          </div>
         </motion.div>
       ) : (
         <form 
           onSubmit={handleSubmit}
-          className="relative"
+          className="relative bg-white/70 backdrop-blur-xl rounded-2xl p-2 shadow-xl shadow-slate-200/50 flex items-center group border border-white"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className={`relative bg-white rounded-2xl shadow-xl shadow-slate-200/50 flex items-center border-2 transition-all duration-300 ${isHovered ? 'border-blue-400 shadow-blue-100' : 'border-slate-200'}`}>
-            <div className="pl-5 pr-3 text-slate-400">
-              <Mail className="w-5 h-5" />
-            </div>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email..."
-              className="flex-1 bg-transparent border-none outline-none py-4 px-2 text-lg text-slate-900 placeholder:text-slate-400 font-medium w-full"
-            />
-            <button
-              type="submit"
-              className={`m-2 flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white font-semibold transition-all duration-300 ${isHovered ? 'bg-blue-600 scale-105' : ''}`}
-            >
-              <span className="hidden sm:inline">Join Waitlist</span>
-              <span className="sm:hidden">Join</span>
-              <ArrowRight className="w-5 h-5" />
-            </button>
+          <div className="pl-5 pr-2 text-slate-400">
+            <Mail className="w-5 h-5" />
           </div>
-          <p className="text-center text-sm text-slate-500 mt-3 flex items-center justify-center gap-2">
-            <Lock className="w-3 h-3" />
-            No spam. Unsubscribe anytime.
-          </p>
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email to join the waitlist..."
+            className="flex-1 bg-transparent border-none outline-none py-4 px-2 text-lg text-slate-900 placeholder:text-slate-400 font-medium w-full"
+          />
+          <button
+            type="submit"
+            className={`flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-xl bg-slate-900 text-white transition-all duration-300 shadow-md ${
+              isHovered ? 'bg-black scale-95' : ''
+            }`}
+          >
+            <ArrowUp className="w-6 h-6" />
+          </button>
         </form>
       )}
     </div>
   );
 
   return (
-    <div className="min-h-screen w-full bg-slate-50 font-sans text-slate-900 overflow-x-hidden">
+    <div className="min-h-screen w-full bg-slate-50 font-sans selection:bg-emerald-100 selection:text-emerald-900 text-slate-900 overflow-x-hidden">
       
+      {/* Fixed Background Image that blends into the light theme */}
+      <div 
+        className="fixed inset-0 z-0 pointer-events-none transition-opacity duration-1000"
+        style={{
+          backgroundImage: 'url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2832&auto=format&fit=crop")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.8,
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-slate-50/90 to-slate-50 block" />
+      </div>
+
       {/* Urgency Banner */}
-      <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 text-center text-sm font-medium">
+      <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-amber-500 to-orange-500 text-white py-2 px-4 text-center text-sm font-medium">
         <span className="inline-flex items-center gap-2">
           <Sparkles className="w-4 h-4" />
           Beta launching March 2026 — {spotLeft} early access spots remaining
@@ -165,26 +164,23 @@ export default function LandingPage() {
         </span>
       </div>
 
-      {/* Navigation */}
-      <nav className={`fixed z-50 top-8 left-0 right-0 px-4 w-full flex justify-center transition-all duration-300 ${scrolled ? 'top-4' : 'top-8'}`}>
-        <div className={`w-full max-w-5xl flex items-center justify-between px-6 py-3 rounded-full transition-all duration-500 ${scrolled ? 'bg-white/90 backdrop-blur-xl border border-slate-200 shadow-lg' : 'bg-white/60 backdrop-blur-md border border-white/60 shadow-sm'}`}>
+      {/* Glassmorphism Navigation - Light Theme */}
+      <nav className={`fixed z-50 top-8 left-0 right-0 px-4 w-full flex justify-center transition-all duration-300 ${scrolled ? 'top-6' : 'top-8'}`}>
+        <div className={`w-full max-w-5xl flex items-center justify-between px-6 py-3 rounded-full transition-all duration-500 ${scrolled ? 'bg-white/80 backdrop-blur-xl border border-slate-200 shadow-sm' : 'bg-white/40 backdrop-blur-md border border-white/60 shadow-sm'}`}>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <BarChart3 className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-slate-900 text-xl font-bold tracking-tight">
-              LetterMetrics
+            <span className="text-slate-900 text-xl font-medium tracking-tight">
+              <span className="font-serif italic mr-0.5">Letter</span>
+              <span className="font-medium tracking-tighter">Metrics</span>
             </span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-slate-600 text-sm font-medium">
-            <a href="#problem" className="hover:text-slate-900 transition-colors">Problem</a>
-            <a href="#solution" className="hover:text-slate-900 transition-colors">Solution</a>
             <a href="#features" className="hover:text-slate-900 transition-colors">Features</a>
-            <a href="#compare" className="hover:text-slate-900 transition-colors">Compare</a>
+            <a href="#compare" className="hover:text-slate-900 transition-colors">Why Us</a>
+            <a href="#beta" className="hover:text-slate-900 transition-colors">Beta</a>
           </div>
           <a 
             href="#waitlist"
-            className="bg-slate-900 hover:bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-md"
+            className="bg-slate-900 hover:bg-black text-white px-6 py-2 rounded-full text-sm font-medium transition-all shadow-sm"
           >
             Get Early Access
           </a>
@@ -192,100 +188,77 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center pt-32 pb-20">
+      <section className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center pt-24">
         <motion.div
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
           className="max-w-4xl mx-auto"
         >
-          {/* Badge */}
-          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-2 mb-8">
-            <Sparkles className="w-4 h-4 text-blue-500" />
-            <span className="text-sm font-semibold text-blue-700">Now in private beta</span>
-          </motion.div>
-
-          {/* Headline */}
-          <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
-            Stop Flying Blind.
-            <br />
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Know Your Readers.
-            </span>
+          <motion.h1 
+            variants={fadeInUp} 
+            className="text-6xl md:text-8xl text-slate-900 tracking-tight mb-6 leading-tight"
+          >
+            <span className="font-serif italic font-light text-slate-800">Letter</span>
+            <span className="font-medium tracking-tighter">Metrics</span>
           </motion.h1>
-
-          {/* Subheadline */}
-        <motion.p variants={fadeInUp} className="max-w-2xl mx-auto text-xl md:text-2xl text-slate-600 mb-8 leading-relaxed">
-          The analytics platform built <strong>strictly for newsletter creators</strong>. 
-            Cross-platform insights, sponsor-ready reports, and engagement scoring that GA4 can&apos;t touch.
+          
+          <motion.p 
+            variants={fadeInUp}
+            className="max-w-2xl text-lg md:text-xl text-slate-600 font-medium mb-12 leading-relaxed"
+          >
+            Stop guessing what your readers want. The analytics dashboard built strictly for newsletter creators, 
+            replacing GA4 with insights you can actually use.
           </motion.p>
 
-          {/* Pain Points */}
-          <motion.div variants={fadeInUp} className="flex flex-wrap justify-center gap-4 mb-10">
-            {['No more spreadsheet hell', 'No more guessing what works', 'No more $99/mo for basic stats'].map((item, i) => (
-              <span key={i} className="inline-flex items-center gap-2 text-sm text-slate-500 bg-white/80 px-4 py-2 rounded-full border border-slate-200">
-                <Check className="w-4 h-4 text-emerald-500" />
-                {item}
-              </span>
-            ))}
-          </motion.div>
-
-          {/* CTA Form */}
           <motion.div variants={fadeInUp} id="waitlist">
             <WaitlistForm />
           </motion.div>
 
-          {/* Trust Signals */}
-          <motion.div variants={fadeInUp} className="mt-12 flex flex-col items-center">
-            <p className="text-slate-500 text-sm font-medium uppercase tracking-wider mb-4">
-              Works with your favorite platforms
+          <motion.div variants={fadeInUp} className="mt-16 flex flex-col items-center opacity-80">
+            <p className="text-slate-500 text-sm font-medium uppercase tracking-widest mb-4 flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              Built for creators on
+              <Sparkles className="w-4 h-4 text-amber-400" />
             </p>
-            <div className="flex items-center gap-8 text-slate-700 font-semibold">
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
-                Substack
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
-                Beehiiv
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
-                Ghost
-              </span>
+            <div className="flex items-center gap-6 text-slate-800 font-bold text-lg md:text-xl tracking-tight">
+              <span>Substack</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+              <span>Beehiiv</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+              <span>Ghost</span>
             </div>
           </motion.div>
-        </motion.div>
 
-        {/* Scroll Indicator */}
-        <motion.div 
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          className="absolute bottom-8 text-slate-400"
-        >
-          <ChevronDown className="w-8 h-8" />
+          <motion.div 
+            animate={{ y: [0, 10, 0] }}
+            transition={{ repeat: Infinity, duration: 2 }}
+            className="absolute bottom-10 text-slate-400"
+          >
+            <ChevronDown className="w-8 h-8" />
+          </motion.div>
         </motion.div>
       </section>
 
-      {/* Problem Section */}
-      <section id="problem" className="relative z-10 py-24 px-4 bg-slate-50">
-        <div className="max-w-4xl mx-auto">
+      {/* Problem Statement Section */}
+      <section className="relative z-10 py-32 px-4 bg-slate-50">
+        <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.div variants={fadeInUp} className="text-center mb-16">
-              <span className="inline-block text-red-500 font-semibold text-sm uppercase tracking-wider mb-4">The Problem</span>
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-slate-900">
-                GA4 is for selling shoes.
-                <br />
-                <span className="text-slate-400">You sell ideas.</span>
-              </h2>
-            </motion.div>
-
-            <motion.div variants={staggerContainer} className="grid md:grid-cols-3 gap-6">
+            <motion.h2 
+              variants={fadeInUp}
+              className="text-4xl md:text-5xl font-medium tracking-tight mb-8 text-slate-900"
+            >
+              GA4 is for selling shoes.
+              <br />
+              <span className="font-serif italic text-slate-500">You sell ideas.</span>
+            </motion.h2>
+            
+            <motion.div variants={staggerContainer} className="grid md:grid-cols-3 gap-6 mt-12">
               {[
                 {
                   icon: AlertCircle,
@@ -303,12 +276,16 @@ export default function LandingPage() {
                   desc: "GA4 doesn't understand newsletters. No subscriber quality scoring. No content-to-conversion tracking."
                 }
               ].map((item, i) => (
-                <motion.div key={i} variants={fadeInUp} className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
-                  <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center mb-4">
+                <motion.div 
+                  key={i} 
+                  variants={fadeInUp} 
+                  className="bg-white border border-slate-200 rounded-[2rem] p-8 shadow-sm"
+                >
+                  <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center mb-4 mx-auto">
                     <item.icon className="w-6 h-6 text-red-500" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">{item.title}</h3>
-                  <p className="text-slate-600">{item.desc}</p>
+                  <h3 className="text-lg font-medium text-slate-900 mb-2">{item.title}</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
                 </motion.div>
               ))}
             </motion.div>
@@ -316,91 +293,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Solution Section */}
-      <section id="solution" className="relative z-10 py-24 px-4 bg-slate-900 text-white">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeInUp} className="text-center mb-16">
-              <span className="inline-block text-blue-400 font-semibold text-sm uppercase tracking-wider mb-4">The Solution</span>
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-                Built strictly for
-                <br />
-                <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  newsletter creators.
-                </span>
-              </h2>
-              <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-                No tracking pixels. No complex setup. Connect your platforms and get instant clarity on what actually drives growth.
-              </p>
-            </motion.div>
-
-            {/* Dashboard Preview */}
-            <motion.div variants={scaleIn} className="relative bg-slate-800 rounded-3xl p-2 shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/20 to-purple-500/20 rounded-3xl"></div>
-              <div className="relative bg-slate-900 rounded-2xl overflow-hidden">
-                {/* Mock Dashboard Header */}
-                <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-800">
-                  <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  </div>
-                  <div className="flex-1 text-center text-sm text-slate-500">LetterMetrics Dashboard</div>
-                </div>
-                
-                {/* Mock Dashboard Content */}
-                <div className="p-6 grid grid-cols-4 gap-4">
-                  <div className="col-span-4 grid grid-cols-4 gap-4 mb-4">
-                    {[
-                      { label: "Total Subscribers", value: "12,450", change: "+234" },
-                      { label: "Avg Open Rate", value: "42.3%", change: "+2.1%" },
-                      { label: "Avg Click Rate", value: "8.7%", change: "+0.8%" },
-                      { label: "Engagement Score", value: "78/100", change: "+5" }
-                    ].map((stat, i) => (
-                      <div key={i} className="bg-slate-800 rounded-xl p-4">
-                        <div className="text-slate-400 text-xs mb-1">{stat.label}</div>
-                        <div className="text-2xl font-bold text-white">{stat.value}</div>
-                        <div className="text-emerald-400 text-xs">{stat.change}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="col-span-3 bg-slate-800 rounded-xl p-4 h-48 flex items-end justify-around">
-                    {[40, 65, 45, 80, 55, 90, 70, 85, 60, 75, 95, 88].map((h, i) => (
-                      <div key={i} className="w-8 bg-gradient-to-t from-blue-500 to-blue-400 rounded-t" style={{ height: `${h}%` }}></div>
-                    ))}
-                  </div>
-                  <div className="col-span-1 bg-slate-800 rounded-xl p-4">
-                    <div className="text-slate-400 text-xs mb-3">Top Sources</div>
-                    {[
-                      { name: "Organic", pct: 45 },
-                      { name: "Twitter", pct: 30 },
-                      { name: "Referral", pct: 15 },
-                      { name: "Other", pct: 10 }
-                    ].map((source, i) => (
-                      <div key={i} className="mb-3">
-                        <div className="flex justify-between text-xs text-slate-300 mb-1">
-                          <span>{source.name}</span>
-                          <span>{source.pct}%</span>
-                        </div>
-                        <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
-                          <div className="h-full bg-blue-500 rounded-full" style={{ width: `${source.pct * 2}%` }}></div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Features Bento Grid */}
+      {/* What We Offer (Features Bento Box) */}
       <section id="features" className="relative z-10 py-24 px-4 bg-slate-50">
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -409,75 +302,76 @@ export default function LandingPage() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.div variants={fadeInUp} className="text-center mb-16">
-              <span className="inline-block text-blue-600 font-semibold text-sm uppercase tracking-wider mb-4">Features</span>
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-slate-900">
-                Everything you need to scale.
-              </h2>
-              <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-                No bloat. No features you&apos;ll never use. Just the analytics that actually matter for newsletter growth.
-              </p>
+            <motion.div variants={fadeInUp} className="mb-16">
+              <h2 className="text-3xl md:text-4xl font-medium tracking-tight mb-4 text-slate-900">Everything you need to scale.</h2>
+              <p className="text-slate-500 text-lg">No tracking pixels required. Connect your platform and get instant clarity.</p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Feature 1 - Large */}
-              <motion.div variants={scaleIn} className="col-span-1 md:col-span-2 bg-white border border-slate-200 rounded-3xl p-8 md:p-10 shadow-sm hover:shadow-xl transition-all duration-300 group">
+              {/* Feature 1 */}
+              <motion.div 
+                variants={scaleIn}
+                className="col-span-1 md:col-span-2 bg-white border border-slate-200 rounded-[2rem] p-8 md:p-10 shadow-sm hover:shadow-md transition-all duration-300 group"
+              >
                 <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Globe className="w-7 h-7 text-blue-500" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3 text-slate-900">Cross-Platform Unity</h3>
-                <p className="text-slate-600 leading-relaxed mb-4">
-                  Running Substack + Beehiiv + Ghost? See all your subscribers, engagement, and growth in one unified dashboard. 
-                  No more logging into three different accounts or manually merging spreadsheets.
+                <h3 className="text-2xl font-medium mb-3 text-slate-900">Cross-Platform Unity</h3>
+                <p className="text-slate-600 leading-relaxed max-w-md">
+                  Migrating from Substack to Ghost? Running multiple publications on Beehiiv? 
+                  See all your subscribers, engagement, and growth in one unified dashboard. 
+                  No more logging into three different accounts.
                 </p>
-                <div className="flex gap-2">
-                  {['Substack', 'Beehiiv', 'Ghost'].map((p) => (
-                    <span key={p} className="text-xs font-semibold bg-slate-100 text-slate-600 px-3 py-1 rounded-full">
-                      {p}
-                    </span>
-                  ))}
-                </div>
               </motion.div>
 
               {/* Feature 2 */}
-              <motion.div variants={scaleIn} className="col-span-1 bg-white border border-slate-200 rounded-3xl p-8 md:p-10 shadow-sm hover:shadow-xl transition-all duration-300 group">
+              <motion.div 
+                variants={scaleIn}
+                className="col-span-1 bg-white border border-slate-200 rounded-[2rem] p-8 md:p-10 shadow-sm hover:shadow-md transition-all duration-300 group"
+              >
                 <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <FileText className="w-7 h-7 text-emerald-500" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3 text-slate-900">Sponsor-Ready Reports</h3>
+                <h3 className="text-2xl font-medium mb-3 text-slate-900">Sponsor-Ready Reports</h3>
                 <p className="text-slate-600 leading-relaxed">
-                  Generate beautiful, professional PDF reports with one click. Show sponsors exactly what their ROI will be. 
-                  Close deals faster with data that impresses.
+                  Sponsors want real metrics. Generate beautiful, professional PDF reports with one click. 
+                  Show them exactly what their ROI will be.
                 </p>
               </motion.div>
 
               {/* Feature 3 */}
-              <motion.div variants={scaleIn} className="col-span-1 bg-white border border-slate-200 rounded-3xl p-8 md:p-10 shadow-sm hover:shadow-xl transition-all duration-300 group">
+              <motion.div 
+                variants={scaleIn}
+                className="col-span-1 bg-white border border-slate-200 rounded-[2rem] p-8 md:p-10 shadow-sm hover:shadow-md transition-all duration-300 group"
+              >
                 <div className="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Users className="w-7 h-7 text-purple-500" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3 text-slate-900">True Engagement Scoring</h3>
+                <h3 className="text-2xl font-medium mb-3 text-slate-900">True Engagement Scoring</h3>
                 <p className="text-slate-600 leading-relaxed">
-                  Identify your VIP readers. Stop looking at vanity metrics and find out exactly who reads every issue, 
-                  clicks every link, and drives your growth.
+                  Identify your VIP readers. Stop looking at vanity metrics and find out exactly 
+                  who reads every issue, clicks every link, and drives your growth.
                 </p>
               </motion.div>
 
-              {/* Feature 4 - Large */}
-              <motion.div variants={scaleIn} className="col-span-1 md:col-span-2 bg-white border border-slate-200 rounded-3xl p-8 md:p-10 shadow-sm hover:shadow-xl transition-all duration-300 group">
+              {/* Feature 4 */}
+              <motion.div 
+                variants={scaleIn}
+                className="col-span-1 md:col-span-2 bg-white border border-slate-200 rounded-[2rem] p-8 md:p-10 shadow-sm hover:shadow-md transition-all duration-300 group"
+              >
                 <div className="flex flex-col md:flex-row gap-8">
                   <div className="flex-1">
                     <div className="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                       <Target className="w-7 h-7 text-orange-500" />
                     </div>
-                    <h3 className="text-2xl font-bold mb-3 text-slate-900">16-Month Cohort Analysis</h3>
+                    <h3 className="text-2xl font-medium mb-3 text-slate-900">Actionable Cohort Analysis</h3>
                     <p className="text-slate-600 leading-relaxed">
-                      Track retention by acquisition source. Know definitively if your Twitter followers stick around 
-                      longer than your organic search traffic. Make data-driven growth decisions.
+                      Track 16-month retention by acquisition source. Know definitively if your 
+                      Twitter followers stick around longer than your organic search traffic.
                     </p>
                   </div>
                   <div className="flex-1 bg-slate-50 rounded-2xl p-6">
-                    <div className="text-sm font-semibold text-slate-500 mb-4">Retention by Cohort</div>
+                    <div className="text-sm font-medium text-slate-500 mb-4">Retention by Cohort</div>
                     <div className="space-y-3">
                       {[
                         { month: 'Jan 2026', retention: 100 },
@@ -487,14 +381,13 @@ export default function LandingPage() {
                       ].map((c, i) => (
                         <div key={i} className="flex items-center gap-3">
                           <span className="text-xs text-slate-500 w-20">{c.month}</span>
-                          <div className="flex-1 h-6 bg-slate-200 rounded-full overflow-hidden">
+                          <div className="flex-1 h-4 bg-slate-200 rounded-full overflow-hidden">
                             <div 
-                              className="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full flex items-center justify-end pr-2"
+                              className="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full"
                               style={{ width: `${c.retention}%` }}
-                            >
-                              <span className="text-xs font-bold text-white">{c.retention}%</span>
-                            </div>
+                            />
                           </div>
+                          <span className="text-xs font-medium text-slate-600 w-10">{c.retention}%</span>
                         </div>
                       ))}
                     </div>
@@ -506,8 +399,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Comparison Section */}
-      <section id="compare" className="relative z-10 py-24 px-4 bg-white border-y border-slate-200">
+      {/* Why Us vs Competitors */}
+      <section id="compare" className="relative z-10 py-32 px-4 bg-white border-y border-slate-200">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial="hidden"
@@ -516,88 +409,60 @@ export default function LandingPage() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeInUp} className="text-center mb-16">
-              <span className="inline-block text-blue-600 font-semibold text-sm uppercase tracking-wider mb-4">Comparison</span>
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-slate-900">
-                Why we&apos;re different.
-              </h2>
+              <h2 className="text-3xl md:text-4xl font-medium tracking-tight mb-4 text-slate-900">Why LetterMetrics?</h2>
+              <p className="text-slate-500 text-lg">Stop paying for bloated software that wasn&apos;t built for you.</p>
             </motion.div>
 
-            {/* Tabs */}
-            <motion.div variants={fadeInUp} className="flex justify-center mb-12">
-              <div className="inline-flex bg-slate-100 rounded-full p-1">
-                {['vs GA4', 'vs Beehiiv', 'vs Spreadsheets'].map((tab, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveTab(i)}
-                    className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${
-                      activeTab === i ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'
-                    }`}
-                  >
-                    {tab}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Comparison Cards */}
-            <motion.div variants={fadeInUp} className="grid md:grid-cols-2 gap-8">
-              <div className="bg-slate-50 rounded-3xl p-8 border border-slate-200">
+            <motion.div variants={fadeInUp} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+              <div className="bg-slate-50 rounded-[2rem] p-8 md:p-10 border border-slate-200">
                 <div className="mb-6">
-                  <h4 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                    <X className="w-5 h-5 text-red-500" />
-                    {activeTab === 0 ? 'Google Analytics 4' : activeTab === 1 ? 'Beehiiv Analytics' : 'Manual Spreadsheets'}
-                  </h4>
+                  <h4 className="text-xl font-medium text-slate-900">The Old Way</h4>
                 </div>
-                <ul className="space-y-4">
-                  {(activeTab === 0 ? [
-                    'Built for e-commerce, not newsletters',
-                    'Complex event tracking setup',
-                    "Doesn't understand subscriber lifecycle",
-                    'Overwhelming interface'
-                  ] : activeTab === 1 ? [
-                    'Locked to Beehiiv platform only',
-                    '$99+/month for advanced features',
-                    'No cross-platform view',
-                    'Limited export options'
-                  ] : [
-                    'Hours wasted on manual data entry',
-                    'Error-prone copy-pasting',
-                    'No real-time insights',
-                    'Cohort analysis is nearly impossible'
-                  ]).map((item, i) => (
-                    <li key={i} className="flex gap-3 items-start text-slate-600">
-                      <X className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-                      {item}
-                    </li>
-                  ))}
+                <ul className="space-y-4 text-slate-600 font-medium">
+                  <li className="flex gap-4 items-start">
+                    <span className="text-red-400 font-bold mt-0.5">✕</span> 
+                    Fighting with GA4 custom events
+                  </li>
+                  <li className="flex gap-4 items-start">
+                    <span className="text-red-400 font-bold mt-0.5">✕</span> 
+                    Exporting CSVs to calculate cohorts manually
+                  </li>
+                  <li className="flex gap-4 items-start">
+                    <span className="text-red-400 font-bold mt-0.5">✕</span> 
+                    Paying $99+/mo just to unlock platform analytics
+                  </li>
+                  <li className="flex gap-4 items-start">
+                    <span className="text-red-400 font-bold mt-0.5">✕</span> 
+                    Guessing what sponsors actually want to see
+                  </li>
                 </ul>
               </div>
 
-              <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 shadow-xl text-white relative overflow-hidden">
+              <div className="bg-slate-900 rounded-[2rem] p-8 md:p-10 shadow-xl shadow-slate-900/10 text-white relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-8 opacity-10">
                   <BarChart3 className="w-32 h-32" />
                 </div>
                 <div className="relative z-10">
                   <div className="mb-6">
-                    <h4 className="text-xl font-bold flex items-center gap-2">
-                      <Check className="w-5 h-5 text-emerald-400" />
-                      LetterMetrics
-                    </h4>
+                    <h4 className="text-xl font-medium text-white">The LetterMetrics Way</h4>
                   </div>
-                  <ul className="space-y-4">
-                    {[
-                      'Built strictly for newsletter creators',
-                      'Connects Substack + Beehiiv + Ghost',
-                      'Newsletter-native metrics & cohorts',
-                      'One-click sponsor reports',
-                      'Simple, focused interface',
-                      'Starting at $29/month'
-                    ].map((item, i) => (
-                      <li key={i} className="flex gap-3 items-start text-slate-300">
-                        <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                        {item}
-                      </li>
-                    ))}
+                  <ul className="space-y-4 text-slate-300 font-medium">
+                    <li className="flex gap-4 items-start">
+                      <span className="text-emerald-400 font-bold mt-0.5">✓</span> 
+                      Built strictly around the Newsletter data model
+                    </li>
+                    <li className="flex gap-4 items-start">
+                      <span className="text-emerald-400 font-bold mt-0.5">✓</span> 
+                      Instant cohort and retention analysis
+                    </li>
+                    <li className="flex gap-4 items-start">
+                      <span className="text-emerald-400 font-bold mt-0.5">✓</span> 
+                      One price, un-siloed data across all your platforms
+                    </li>
+                    <li className="flex gap-4 items-start">
+                      <span className="text-emerald-400 font-bold mt-0.5">✓</span> 
+                      1-click sponsor reports that win deals
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -606,8 +471,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Beta Benefits Section - REPLACING TESTIMONIALS */}
-      <section className="relative z-10 py-24 px-4 bg-slate-50">
+      {/* Beta Benefits Section */}
+      <section id="beta" className="relative z-10 py-24 px-4 bg-slate-50">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial="hidden"
@@ -616,8 +481,8 @@ export default function LandingPage() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeInUp} className="text-center mb-16">
-              <span className="inline-block text-blue-600 font-semibold text-sm uppercase tracking-wider mb-4">Beta Access</span>
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">
+              <span className="inline-block text-blue-600 font-medium text-sm uppercase tracking-wider mb-4">Beta Access</span>
+              <h2 className="text-4xl md:text-5xl font-medium tracking-tight text-slate-900">
                 Be among the first.
               </h2>
               <p className="text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
@@ -643,11 +508,15 @@ export default function LandingPage() {
                   desc: "Lock in 50% off forever when you join the beta. Grandfathered pricing for life."
                 }
               ].map((item, i) => (
-                <motion.div key={i} variants={fadeInUp} className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
-                  <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4">
-                    <item.icon className="w-6 h-6 text-blue-500" />
+                <motion.div 
+                  key={i} 
+                  variants={fadeInUp} 
+                  className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm"
+                >
+                  <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-6">
+                    <item.icon className="w-7 h-7 text-blue-500" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">{item.title}</h3>
+                  <h3 className="text-xl font-medium text-slate-900 mb-2">{item.title}</h3>
                   <p className="text-slate-600">{item.desc}</p>
                 </motion.div>
               ))}
@@ -666,8 +535,8 @@ export default function LandingPage() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeInUp}>
-              <span className="inline-block text-blue-600 font-semibold text-sm uppercase tracking-wider mb-4">Pricing</span>
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-slate-900">
+              <span className="inline-block text-blue-600 font-medium text-sm uppercase tracking-wider mb-4">Pricing</span>
+              <h2 className="text-3xl md:text-4xl font-medium tracking-tight mb-6 text-slate-900">
                 Simple, transparent pricing.
               </h2>
               <p className="text-xl text-slate-600 mb-12">
@@ -676,9 +545,9 @@ export default function LandingPage() {
             </motion.div>
 
             <motion.div variants={fadeInUp} className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-              <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200">
-                <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">Free</div>
-                <div className="text-4xl font-bold text-slate-900 mb-4">$0</div>
+              <div className="bg-slate-50 rounded-[2rem] p-8 border border-slate-200">
+                <div className="text-sm font-medium text-slate-500 uppercase tracking-wider mb-2">Free</div>
+                <div className="text-4xl font-medium text-slate-900 mb-4">$0</div>
                 <ul className="space-y-3 text-left text-slate-600 mb-8">
                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> 1 platform</li>
                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> 7-day data history</li>
@@ -686,23 +555,23 @@ export default function LandingPage() {
                 </ul>
               </div>
 
-              <div className="bg-slate-900 rounded-2xl p-8 text-white relative overflow-hidden">
+              <div className="bg-slate-900 rounded-[2rem] p-8 text-white relative overflow-hidden">
                 <div className="absolute top-4 right-4 bg-blue-500 text-xs font-bold px-3 py-1 rounded-full">
                   POPULAR
                 </div>
-                <div className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Pro</div>
-                <div className="text-4xl font-bold mb-4">$29<span className="text-lg text-slate-400">/mo</span></div>
+                <div className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-2">Pro</div>
+                <div className="text-4xl font-medium mb-4">$29<span className="text-lg text-slate-400">/mo</span></div>
                 <ul className="space-y-3 text-left text-slate-300 mb-8">
                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> Unlimited platforms</li>
                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> Full data history</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> CSV & PDF exports</li>
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> CSV &amp; PDF exports</li>
                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> Sponsor reports</li>
                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> Cohort analysis</li>
                 </ul>
               </div>
             </motion.div>
 
-            <motion.div variants={fadeInUp} className="mt-8 p-4 bg-blue-50 rounded-xl border border-blue-200 inline-block">
+            <motion.div variants={fadeInUp} className="mt-8 p-4 bg-blue-50 rounded-2xl border border-blue-200 inline-block">
               <p className="text-blue-800 font-medium">
                 🎉 Beta members get 50% off forever — just $14.50/mo
               </p>
@@ -711,8 +580,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="relative z-10 py-32 px-4 bg-gradient-to-b from-slate-50 to-slate-100">
+      {/* Bottom CTA */}
+      <section className="relative z-10 py-32 px-4 bg-slate-50">
         <div className="max-w-3xl mx-auto text-center">
           <motion.div
             initial="hidden"
@@ -721,20 +590,20 @@ export default function LandingPage() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeInUp}>
-              <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-slate-900">
+              <h2 className="text-4xl md:text-6xl font-medium tracking-tight mb-6 text-slate-900">
                 Ready to understand your readers?
               </h2>
-              <p className="text-xl text-slate-600 mb-4">
-                Join the waitlist for early access.
+              <p className="text-xl text-slate-500 mb-4">
+                Join the waitlist today.
               </p>
-              <p className="text-blue-600 font-semibold mb-10 flex items-center justify-center gap-2">
+              <p className="text-amber-600 font-medium mb-12 flex items-center justify-center gap-2">
                 <Zap className="w-5 h-5" />
                 Only {spotLeft} beta spots remaining
               </p>
             </motion.div>
 
             <motion.div variants={fadeInUp}>
-              <WaitlistForm compact />
+              <WaitlistForm />
             </motion.div>
 
             <motion.div variants={fadeInUp} className="mt-12 flex items-center justify-center gap-6 text-sm text-slate-500">
@@ -756,25 +625,8 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 py-12 px-4 bg-slate-900 text-slate-400">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <BarChart3 className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-white text-xl font-bold">LetterMetrics</span>
-            </div>
-            <div className="flex gap-8 text-sm">
-              <a href="#" className="hover:text-white transition-colors">Privacy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms</a>
-              <a href="#" className="hover:text-white transition-colors">Contact</a>
-            </div>
-            <div className="text-sm">
-              © 2026 LetterMetrics. Built by Yaksh.
-            </div>
-          </div>
-        </div>
+      <footer className="relative z-10 py-8 text-center text-slate-500 text-sm bg-slate-50 border-t border-slate-200">
+        <p>© 2026 LetterMetrics. Built by Yaksh.</p>
       </footer>
 
       {/* Exit Intent Modal */}
@@ -791,14 +643,14 @@ export default function LandingPage() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl"
+              className="bg-white rounded-[2rem] p-8 max-w-md w-full shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="text-center">
                 <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Zap className="w-8 h-8 text-amber-500" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-2">Wait! Don&apos;t miss out.</h3>
+                <h3 className="text-2xl font-medium text-slate-900 mb-2">Wait! Don&apos;t miss out.</h3>
                 <p className="text-slate-600 mb-6">
                   Only {spotLeft} beta spots left. Join the waitlist now and get 50% off your first year.
                 </p>
@@ -812,7 +664,7 @@ export default function LandingPage() {
                   />
                   <button
                     type="submit"
-                    className="w-full py-3 bg-slate-900 text-white font-semibold rounded-xl hover:bg-blue-600 transition-colors"
+                    className="w-full py-3 bg-slate-900 text-white font-medium rounded-xl hover:bg-black transition-colors"
                   >
                     Claim My Spot
                   </button>

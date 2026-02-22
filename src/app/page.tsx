@@ -160,9 +160,9 @@ export default function LandingPage() {
             </motion.div>
           </motion.div>
 
-          <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight mb-8 leading-[1.1]">
-            <span className="block text-slate-400 font-light">Stop flying blind.</span>
-            <span className="block mt-2">Know your<motion.span className="font-serif italic text-slate-600" whileHover={{ color: '#0f172a' }} transition={{ duration: 0.3 }}> readers</motion.span>.</span>
+          <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight mb-8 leading-[1.05]">
+            <span className="block font-serif italic font-light text-slate-500">Stop flying blind.</span>
+            <span className="block mt-2 font-serif italic">Know your readers.</span>
           </motion.h1>
 
           <motion.p variants={fadeInUp} className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-12 leading-relaxed font-light">

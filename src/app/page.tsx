@@ -156,7 +156,7 @@ export default function LandingPage() {
           <motion.div variants={fadeInUp} className="mb-8">
             <motion.div className="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-full px-4 py-2 shadow-sm" whileHover={{ scale: 1.02, boxShadow: '0 4px 20px -4px rgba(0,0,0,0.1)' }}>
               <span className="flex h-2 w-2 rounded-full bg-emerald-500 relative"><span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75" /></span>
-              <span className="text-sm font-medium text-slate-600">Now in private beta — {spotLeft} spots left</span>
+              <span className="text-sm font-medium text-slate-600">Now in private beta — 50 spots left</span>
             </motion.div>
           </motion.div>
 
@@ -308,7 +308,6 @@ export default function LandingPage() {
         <div className="max-w-3xl mx-auto text-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
             <motion.h2 variants={fadeInUp} className="text-4xl md:text-6xl font-semibold tracking-tight mb-6">Ready to understand<br /><span className="font-serif italic font-light text-slate-500">your readers?</span></motion.h2>
-            <motion.p variants={fadeInUp} className="text-slate-500 mb-8">Join {50 - spotLeft} creators on the waitlist.</motion.p>
             <motion.div variants={fadeInUp}>
               <motion.a href="#waitlist" className="inline-flex items-center gap-2 bg-slate-900 text-white px-8 py-4 rounded-2xl font-medium text-lg" whileHover={{ scale: 1.03, boxShadow: '0 20px 50px -12px rgba(0,0,0,0.3)' }} whileTap={{ scale: 0.98 }}>
                 Get Early Access<ArrowRight className="w-5 h-5" />

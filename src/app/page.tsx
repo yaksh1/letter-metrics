@@ -161,8 +161,8 @@ export default function LandingPage() {
           </motion.div>
 
           <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl lg:text-[84px] font-normal tracking-tight mb-8 leading-[92px]">
-            <span className="block font-[family-name:var(--font-source-serif)] text-[#16140F]">Stop flying blind.</span>
-            <span className="block mt-2 font-[family-name:var(--font-source-serif)] text-[#16140F]">Know your <span className="font-[family-name:var(--font-source-serif)] italic">readers</span>.</span>
+            <span className="block font-[family-name:var(--font-source-serif)]">Stop flying blind.</span>
+            <span className="block mt-2 font-[family-name:var(--font-source-serif)]">Know your <span className="font-[family-name:var(--font-source-serif)] italic">readers</span>.</span>
           </motion.h1>
 
           <motion.p variants={fadeInUp} className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-12 leading-relaxed font-light">

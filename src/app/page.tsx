@@ -33,18 +33,25 @@ const scaleIn: Variants = {
   visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
 };
 
-const submitToGoogleSheets = async (email: string, source: string = 'website') => {
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+const submitToFormspree = async (email: string) => {
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mlgwppyk';
   try {
-    await fetch(GOOGLE_SCRIPT_URL, {
+    const response = await fetch(FORMSPREE_ENDPOINT, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, source, timestamp: new Date().toISOString(), userAgent: navigator.userAgent }),
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ 
+        email,
+        source: 'lettermetrics-landing',
+        timestamp: new Date().toISOString()
+      }),
     });
-    return true;
-  } catch {
-    return true;
+    return response.ok;
+  } catch (error) {
+    console.error('Form submission error:', error);
+    return false;
   }
 };
 
@@ -92,9 +99,11 @@ export default function LandingPage() {
     e.preventDefault();
     if (email && !isSubmitting) {
       setIsSubmitting(true);
-      await submitToGoogleSheets(email);
-      setSubmitted(true);
-      setEmail('');
+      const success = await submitToFormspree(email);
+      if (success) {
+        setSubmitted(true);
+        setEmail('');
+      }
       setIsSubmitting(false);
     }
   }, [email, isSubmitting]);
